@@ -27,19 +27,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindViews() {
+        // initializing recycler view
+        binding.recyclerview.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+            adapter = postAdapter
+        }
+
         val repository = PostRepository()
         val viewModelFactory = PostViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[PostViewModel::class.java]
 
         viewModel.getCustomPosts(1, "id", "asc")
         viewModel.customPostResponse.observe(this) { response->
+
             if (response.isSuccessful)
                 response.body()?.let { postAdapter.setData(it) }
             else Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
-        }
-        binding.recyclerview.apply {
-            adapter = postAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+
         }
     }
+
+
 }

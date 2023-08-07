@@ -7,13 +7,12 @@ import com.example.retrofit.data.model.Post
 import com.example.retrofit.data.model.PostItem
 import com.example.retrofit.data.repository.PostRepository
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import retrofit2.Response
 
 class PostViewModel(private val repository: PostRepository) : ViewModel() {
 
     val postResponse: MutableLiveData<Response<PostItem>> = MutableLiveData()
-    val customPostResponse: MutableLiveData<Response<List<PostItem>>> = MutableLiveData()
+    val customPostResponse: MutableLiveData<Response<Post>> = MutableLiveData()
 
     fun getPosts() {
         viewModelScope.launch {
@@ -25,7 +24,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
 
     fun getCustomPosts(userId: Int, sort: String, order: String) {
         viewModelScope.launch {
-            val response: Response<List<PostItem>> = repository.getCustomPosts(userId, sort, order)
+            val response: Response<Post> = repository.getCustomPosts(userId, sort, order)
             customPostResponse.value = response
         }
     }
