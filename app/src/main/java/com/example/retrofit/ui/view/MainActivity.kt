@@ -38,15 +38,17 @@ class MainActivity : AppCompatActivity() {
                 setMessage("Please check your internet connection")
 
                 setPositiveButton("RETRY") { _, _ ->
-                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    val intent = Intent(this@MainActivity, this@MainActivity::class.java)
                     startActivity(intent)
                 }
 
                 setNegativeButton("EXIT") { _, _ ->
+                    moveTaskToBack(true)
                     MainActivity().finish()
-                    exitProcess(0)
+                    exitProcess(-1)
                 }
 
+                setCancelable(false)
             }.create().show()
         }
 
