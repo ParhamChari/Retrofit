@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.retrofit.data.model.PostItem
 import com.example.retrofit.data.repository.PostRepository
 import com.example.retrofit.databinding.ActivityMainBinding
 import com.example.retrofit.ui.adapter.ItemCardAdapter
@@ -28,23 +29,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun bindViews() {
         // initializing recycler view
-        binding.recyclerview.apply {
+        /* binding.recyclerview.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
             adapter = postAdapter
-        }
+        } */
 
         val repository = PostRepository()
         val viewModelFactory = PostViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[PostViewModel::class.java]
 
-        viewModel.getCustomPosts(1, "id", "asc")
-        viewModel.customPostResponse.observe(this) { response->
-
-            if (response.isSuccessful)
-                response.body()?.let { postAdapter.setData(it) }
-            else Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
-
+        val postItem = PostItem(10,100,"Retrofit","Retrofit Post App")
+        viewModel.setPosts(postItem)
+        viewModel.pushPostsResponse.observe(this) { response->
+            if (response.isSuccessful) {
+                Toast.makeText(this, response.body().toString(), Toast.LENGTH_LONG).show()
+            } else Toast.makeText(this, response.code().toString(), Toast.LENGTH_LONG).show()
         }
+
     }
 
 
