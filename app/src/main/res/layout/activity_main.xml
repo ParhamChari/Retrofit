@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.view.MainActivity">
 
 
     <EditText
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:hint="input number id "
+        android:hint="input id number"
         android:inputType="number"
         android:minHeight="48dp"
         android:paddingStart="@dimen/_8sdp"
