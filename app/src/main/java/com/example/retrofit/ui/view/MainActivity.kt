@@ -1,7 +1,6 @@
 package com.example.retrofit.ui.view
 
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -28,30 +27,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (checkForInternet(this)) {
-
-            bindViews()
-
-        } else {
-
-            AlertDialog.Builder(this).apply {
-                setTitle("Internet Error")
-                setMessage("Please check your internet connection")
-
-                setPositiveButton("RETRY") { _, _ ->
-                    val intent = Intent(this@MainActivity, this@MainActivity::class.java)
-                    startActivity(intent)
-                }
-
-                setNegativeButton("EXIT") { _, _ ->
-                    MainActivity().finish()
-                    moveTaskToBack(true)
-                    exitProcess(-1)
-                }
-
-                setCancelable(false)
-            }.create().show()
-        }
+        showViews()
 
     }
 
@@ -114,6 +90,32 @@ class MainActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             return networkInfo.isConnected
         }
+    }
+
+    private fun showViews() {
+        if (checkForInternet(this)) {
+            bindViews()
+        }
+        else {
+
+            AlertDialog.Builder(this).apply {
+                setTitle("Internet Error")
+                setMessage("Please check your internet connection")
+
+                setPositiveButton("RETRY") { _, _ ->
+                    showViews()
+                }
+
+                setNegativeButton("EXIT") { _, _ ->
+                    MainActivity().finish()
+                    moveTaskToBack(true)
+                    exitProcess(-1)
+                }
+
+                setCancelable(false)
+            }.create().show()
+        }
+
     }
 
 }
