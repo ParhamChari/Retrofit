@@ -21,11 +21,11 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
         }
     }
 
-
     fun getCustomPosts(userId: Int, sort: String, order: String) {
         viewModelScope.launch {
             val response: Response<Post> = repository.getCustomPosts(userId, sort, order)
             customPostResponse.value = response
         }
     }
+
 }

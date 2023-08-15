@@ -4,10 +4,10 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.retrofit.data.repository.PostRepository
@@ -32,23 +32,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindViews() {
-        // initializing recycler view
-        binding.recyclerview.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
-            adapter = postAdapter
-        }
-
         val repository = PostRepository()
         val viewModelFactory = PostViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[PostViewModel::class.java]
 
         viewModel.getCustomPosts(1, "id", "asc")
-        viewModel.customPostResponse.observe(this) { response->
+        viewModel.customPostResponse.observe(this) { response ->
 
             if (response.isSuccessful)
                 response.body()?.let { postAdapter.setData(it) }
             else Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
 
+        }
+
+        // initializing recycler view
+        binding.recyclerview.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+            adapter = postAdapter
         }
     }
 
@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity() {
     private fun checkForInternet(context: Context): Boolean {
 
         // register activity with the connectivity manager service
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         // if the android version is equal to M
         // or greater we need to use the
@@ -94,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showViews() {
         if (checkForInternet(this)) {
-            bindViews()
+                bindViews()
         }
         else {
 
