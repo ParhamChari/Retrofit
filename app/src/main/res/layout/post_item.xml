@@ -32,7 +32,7 @@
             android:layout_marginTop="@dimen/_13sdp"
             android:text="Description"
             android:textSize="@dimen/_13ssp"
-            android:textColor="#F32020"
+            android:textColor="#D11616"
             android:maxLength="41"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/title"
